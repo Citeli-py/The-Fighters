@@ -67,7 +67,7 @@ class TurmasController < ApplicationController
     end
   end
 
-  #GET /turmas/scanner
+  # GET /turmas/scanner
   def turma_scanner
   end
 
