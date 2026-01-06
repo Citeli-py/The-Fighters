@@ -1,0 +1,59 @@
+<div class="page-header">
+  <strong> <%= link_to "\< Voltar", aulas_path %> </strong>
+  <h1>Aula</h1>
+  <p></p>
+</div>
+  
+<%= render @aula %>
+
+<h2>QR Code da Aula</h2>
+
+<div style="width: 300px">
+  <%= raw @qr.as_svg(
+    offset: 0,
+    color: "FFF",
+    shape_rendering: "crispEdges",
+    module_size: 6,
+    standalone: true
+  ) %>
+</div>
+
+
+<h2>Presenças confirmadas</h2>
+
+<% if @presencas.any? %>
+  <div class="grid-6">
+    <% @presencas.each do |presenca| %>
+      <div class="card">
+        <strong><%= presenca.aluno.nome %></strong>
+
+        <%= button_to "Remover",
+          aula_presenca_path(@aula, presenca),
+          method: :delete,
+          class: "btn btn-danger btn-sm",
+          data: { turbo_confirm: "Remover presença?" } %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>Nenhuma presença registrada ainda.</p>
+<% end %>
+
+<h2>Adicionar presença</h2>
+
+<% if @alunos_disponiveis.any? %>
+  <div class="grid-6">
+    <% @alunos_disponiveis.each do |aluno| %>
+      <div class="card">
+        <%= aluno.nome %>
+
+        <%= button_to "Marcar presença",
+          aula_presencas_path(@aula, aluno_id: aluno.id),
+          method: :post,
+          class: "btn btn-primary btn-sm" %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>Todos os alunos da turma já marcaram presença.</p>
+<% end %>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @modalidade %>
+
+<div>
+  <%= link_to "Edit this modalidade", edit_modalidade_path(@modalidade) %> |
+  <%= link_to "Back to modalidades", modalidades_path %>
+
+  <%= button_to "Destroy this modalidade", @modalidade, method: :delete %>
+</div>

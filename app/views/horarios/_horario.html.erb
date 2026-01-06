@@ -1,0 +1,23 @@
+<div id="<%= dom_id horario %>">
+  <div hidden>
+    <strong>Turma:</strong>
+    <%= horario.turma.nome %>
+  </div>
+
+  <div>
+    <strong>Dia semana:</strong>
+    <%= horario.dia_semana_string %>
+  </div>
+
+  <div>
+    <strong>Hora início:</strong>
+    <%= horario.hora_inicio.strftime("%H:%M") %>
+  </div>
+
+  <div>
+    <strong>Hora fim:</strong>
+    <%= horario.hora_fim.strftime("%H:%M") %>
+  </div>
+
+</div>
+

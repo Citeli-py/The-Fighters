@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @aluno %>
+
+
+<h1>Turmas</h1>
+
+<% if @aluno.turmas.any? %>
+  <div class="grid">
+    <% @aluno.turmas.each do |turma| %>
+      <%= render turma, show: false%>
+    <% end %>
+  </div>
+<% else %>
+  <p>Este aluno não está matriculado em nenhuma turma.</p>
+<% end %>

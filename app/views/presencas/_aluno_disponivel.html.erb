@@ -1,0 +1,8 @@
+<div id="<%= dom_id aluno %>" class="card">
+  <%= aluno.nome %>
+
+  <%= button_to "Marcar presença",
+    aula_presencas_path(aula, aluno_id: aluno.id),
+    method: :post,
+    class: "btn btn-primary btn-sm" %>
+</div>

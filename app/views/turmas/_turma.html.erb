@@ -1,0 +1,30 @@
+<div id="<%= dom_id turma %>" class="turma-header">
+
+  <div class="card-header">
+    <strong> <%= turma.nome %> </strong>
+  </div>
+
+  <div>
+    <strong>Modalidade:</strong>
+    <%= turma.modalidade.nome %>
+  </div>
+
+  <div>
+    <strong>Descricao:</strong>
+    <%= turma.descricao %>
+  </div>
+
+  <div class="turma-actions">
+    <%= link_to "Ver", turma, class: "btn btn-outline btn-sm" %>
+    <%= link_to "✏️ Editar Turma", edit_turma_path(turma), class: "btn btn-outline" %>
+    <% if local_assigns[:show].present? %>
+      <%= button_to "Remover Turma",
+        turma_path(turma),
+        method: :delete,
+        class: "btn btn-danger",
+        data: { turbo_confirm: "Tem certeza que deseja remover #{turma.nome}?" } %>
+    <%end%>
+
+  </div>
+
+</div>

@@ -1,0 +1,28 @@
+<div class="page">
+
+  <% if notice.present? %>
+    <div class="alert-success">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <div class="section">
+
+    <strong> <%= link_to "\< Voltar", root_path %> </strong>
+
+    <h1>Alunos</h1>
+
+    <%= link_to "Novo aluno", new_aluno_path, class: "btn btn-primary" %>
+  </div>
+
+  <div class="grid">
+    <% @alunos.each do |aluno| %>
+      <%= render aluno %>
+    <% end %>
+  </div>
+
+  <% if @alunos.empty? %>
+    <p class="empty">Nenhum aluno cadastrado.</p>
+  <% end %>
+
+</div>

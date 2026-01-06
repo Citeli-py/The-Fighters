@@ -1,0 +1,62 @@
+<% if notice.present? %>
+  <div class="alert-success">
+    <%= notice %>
+  </div>
+<% end %>
+
+<div class="turma-show">
+
+  <!-- Turma -->
+  <%= render @turma, show: true %>
+
+  <!-- Alunos -->
+  <section class="section">
+
+    <div class="page-header">
+      <h2>👥 Alunos da Turma</h2>
+
+      <%= link_to "Adicionar aluno",
+        new_turma_turma_aluno_path(@turma),
+        class: "btn btn-primary btn-sm"
+      %>
+    </div>
+
+    <% if @turma.alunos.any? %>
+      <div class="grid">
+        <% @turma.alunos.each do |aluno| %>
+            <%= render aluno, turma: @turma %>
+        <% end %>
+        
+      </div>
+    <% else %>
+      <p class="empty">Nenhum aluno matriculado.</p>
+    <% end %>
+  </section>
+
+  <!-- Horários -->
+  <section class="section">
+
+    <div class="page-header">
+      <h2>🕒 Horários da Turma</h2>
+
+      <%= link_to "Adicionar Horario",
+        new_horario_path(turma_id: @turma.id),
+        class: "btn btn-primary btn-sm"
+      %>
+    </div>
+
+    <% if @turma.horarios.any? %>
+      <div class="grid">
+        <% @turma.horarios.each do |horario| %>
+          <div class="card">
+            <%= render horario %>
+            <%= link_to "Ver horário", horario, class: "btn btn-outline btn-sm" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="empty">Nenhum horário cadastrado.</p>
+    <% end %>
+  </section>
+
+</div>

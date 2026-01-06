@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome: MyString
+  data_nascimento: 2025-12-21
+  cpf: MyString
+
+two:
+  nome: MyString
+  data_nascimento: 2025-12-21
+  cpf: MyString

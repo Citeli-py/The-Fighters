@@ -1,0 +1,5 @@
+# config/sidekiq.yml
+:schedule:
+  aulas_rolling_window:
+    cron: "0 2 * * *"
+    class: AulasRollingWindowJob

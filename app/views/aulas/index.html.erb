@@ -1,0 +1,18 @@
+<div class="page-header">
+
+  <strong> <%= link_to "\< Voltar", root_path %> </strong>
+
+  <h1>Aulas</h1>
+
+  <%# <%= link_to "➕ Nova Aula",
+    new_turma_path,
+    class: "btn btn-primary"
+  %>
+  <p></p>
+</div>
+
+<div class="grid" style="padding: 1rem;">
+  <% @aulas.each do |aula| %>
+    <%= render aula %>
+  <% end %>
+</div>

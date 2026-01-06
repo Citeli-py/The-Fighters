@@ -1,0 +1,39 @@
+
+<div id="<%= dom_id aluno %>" class="card">
+    <div class="card-header">
+      <%= aluno.nome %>
+    </div>
+
+    <p>
+      <strong>CPF:</strong>
+      <%= aluno.cpf %>
+    </p>
+
+    <p>
+      <strong>Nascimento:</strong>
+      <%= aluno.data_nascimento_formatada %>
+    </p>
+
+    <div class="turma-actions">
+      <%= link_to "Ver", aluno, class: "btn btn-outline btn-sm" %>
+      <%= link_to "Editar", edit_aluno_path(aluno), class: "btn btn-outline btn-sm" %>
+
+      <% if local_assigns[:turma].present? %>
+        <%= button_to "Remover da turma",
+          turma_turma_aluno_path(@turma, aluno),
+          method: :delete,
+          class: "btn btn-danger",
+          data: { turbo_confirm: "Tem certeza que deseja remover #{aluno.nome} de #{@turma.nome}?" } %>
+
+      <% else %>
+        <%= button_to "Remover",
+          aluno,
+          method: :delete,
+          class: "btn btn-danger",
+          data: { turbo_confirm: "Tem certeza que deseja remover este aluno?" }
+        %> 
+      <% end %>
+
+    </div>
+
+</div>

@@ -1,0 +1,46 @@
+<div id="<%= dom_id aula %>" class="card">
+  <div class="card-header">
+    Aula <%= aula.code %>
+  </div>
+
+  <p>
+    <strong>Status:</strong>
+    <%= aula.status_nome %>
+    <br>
+    
+    <strong>Data:</strong>
+    <%= aula.data_hora_formatada %>
+    <br>
+
+    <strong>Turma:</strong>
+    <%= aula.horario.turma.nome %>
+  </p>
+
+  <%if current_user.admin?%>
+    <div class="turma-actions">
+
+      <%= link_to "Ver", aula_path(aula), class: "btn"%>
+
+      <% if aula.is_cancelada and not aula.is_realizada %>
+        <%= button_to "Confirmar",
+          confirm_aula_path(aula),
+          method: :patch,
+          class: "btn btn-primary"
+        %>
+      <% end %>
+
+
+      <% if not aula.is_cancelada %>
+        <%= button_to "Cancelar",
+          cancel_aula_path(aula),
+          method: :patch,
+          class: "btn btn-danger",
+          data: { turbo_confirm: "Tem certeza que deseja cancelar essa aula?" }
+        %>
+      <% end %>
+    </div>
+  <%end%>
+
+
+
+</div>

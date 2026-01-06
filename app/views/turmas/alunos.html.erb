@@ -1,0 +1,23 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Turma</h1>
+
+<%= render @turma %>
+
+
+<h1>Alunos da Turma</h1>
+<div id="alunos">
+  <% @alunos.each do |aluno| %>
+    <%= render aluno %>
+    <p>
+      <%= link_to "Show this aluno", aluno %>
+    </p>
+  <% end %>
+</div>
+
+<div>
+  <%= link_to "Edit this turma", edit_turma_path(@turma) %> |
+  <%= link_to "Back to turmas", turmas_path %>
+
+  <%= button_to "Destroy this turma", @turma, method: :delete %>
+</div>

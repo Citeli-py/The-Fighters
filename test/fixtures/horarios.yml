@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  turma: one
+  dia_semana: 1
+  hora_inicio: 2025-12-22 10:19:30
+  hora_fim: 2025-12-22 10:19:30
+
+two:
+  turma: two
+  dia_semana: 1
+  hora_inicio: 2025-12-22 10:19:30
+  hora_fim: 2025-12-22 10:19:30

@@ -1,0 +1,34 @@
+<% content_for :title, "Turmas" %>
+
+<div class="page-header">
+  <strong> <%= link_to "\< Voltar", root_path %> </strong>
+
+  <h1>🥋 Turmas</h1>
+
+  <%= link_to "➕ Nova Turma",
+    new_turma_path,
+    class: "btn btn-primary"
+  %>
+</div>
+
+
+<% if notice.present? %>
+  <div class="alert-success">
+    <%= notice %>
+  </div>
+<% end %>
+
+<div class="page">
+
+  <div class="grid">
+    <% @turmas.each do |turma| %>
+      <div class="card destaque">
+        <div class="card-header"><%= turma.nome %></div>
+
+        <p><strong>Modalidade:</strong> <%= turma.modalidade.nome %></p>
+
+        <%= link_to "Ver turma", turma, class: "btn btn-primary btn-sm" %>
+      </div>
+    <% end %>
+  </div>
+</div>

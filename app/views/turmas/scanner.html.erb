@@ -1,0 +1,18 @@
+<h1>Escanear QR Code</h1>
+
+<div id="reader" style="width:300px"></div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+  const html5QrCode = new Html5Qrcode("reader");
+
+  html5QrCode.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    qrCodeMessage => {
+      //window.location.href = qrCodeMessage;
+      alert(`QR Code detected: ${qrCodeMessage}`);
+    }
+  );
+</script>
