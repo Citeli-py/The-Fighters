@@ -1,5 +1,5 @@
 class AulasService
-  WINDOW_DAYS = 7
+  WINDOW_DAYS = ENV.fetch("AULAS_WINDOW_DAYS", "30").to_i
 
   def self.ensure_aulas_for_next_days(days = WINDOW_DAYS)
     start_date = Date.current

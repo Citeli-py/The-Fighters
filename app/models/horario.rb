@@ -11,6 +11,8 @@ class Horario < ApplicationRecord
 
   belongs_to :turma
 
+  after_create_commit -> { AulasParaNovoHorarioJob.perform_later(id) }
+
   validates :dia_semana,
             presence: true,
             inclusion: { in: DIAS_SEMANA.values }
