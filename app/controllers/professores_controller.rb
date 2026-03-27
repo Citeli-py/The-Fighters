@@ -17,6 +17,7 @@ class ProfessoresController < ApplicationController
     result = ProfessoresService.create(
       nome:            professor_params[:nome],
       cpf:             professor_params[:cpf],
+      email:           professor_params[:user_email],
       data_nascimento: professor_params[:data_nascimento]
     )
 
@@ -33,11 +34,14 @@ class ProfessoresController < ApplicationController
   end
 
   def update
-    if @professor.update(professor_params.except(:cpf))
-      redirect_to @professor, notice: "Professor atualizado.", status: :see_other
-    else
-      render :edit, status: :unprocessable_entity
+    ActiveRecord::Base.transaction do
+      @professor.update!(professor_params.except(:cpf, :user_email))
+      @professor.user.update!(email: professor_params[:user_email]) if professor_params[:user_email].present?
     end
+    redirect_to @professor, notice: "Professor atualizado.", status: :see_other
+  rescue ActiveRecord::RecordInvalid => e
+    @professor.errors.add(:base, e.message)
+    render :edit, status: :unprocessable_entity
   end
 
   def destroy
@@ -59,6 +63,6 @@ class ProfessoresController < ApplicationController
   end
 
   def professor_params
-    params.expect(professor: [ :nome, :cpf, :data_nascimento ])
+    params.expect(professor: [ :nome, :cpf, :data_nascimento, :user_email ])
   end
 end

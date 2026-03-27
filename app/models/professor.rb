@@ -1,6 +1,8 @@
 class Professor < ApplicationRecord
   belongs_to :user
 
+  attr_accessor :user_email
+
   validates :nome, :cpf, presence: true
   validates :cpf, uniqueness: true
 
