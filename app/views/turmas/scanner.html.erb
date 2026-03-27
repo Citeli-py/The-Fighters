@@ -5,14 +5,33 @@
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <script>
+  function showScannerToast(message) {
+    const container = document.getElementById("toast-container")
+    if (!container) return
+    const el = document.createElement("div")
+    el.className = "toast toast--success"
+    el.dataset.controller = "toast"
+    const msgSpan = document.createElement("span")
+    msgSpan.className = "toast-message"
+    msgSpan.textContent = message
+    const closeBtn = document.createElement("button")
+    closeBtn.className = "toast-close"
+    closeBtn.setAttribute("data-action", "click->toast#dismiss")
+    closeBtn.setAttribute("aria-label", "Fechar")
+    closeBtn.textContent = "✕"
+    el.appendChild(msgSpan)
+    el.appendChild(closeBtn)
+    container.appendChild(el)
+  }
+
   const html5QrCode = new Html5Qrcode("reader");
 
   html5QrCode.start(
     { facingMode: "environment" },
     { fps: 10, qrbox: 250 },
     qrCodeMessage => {
+      showScannerToast(`QR detectado: ${qrCodeMessage}`)
       //window.location.href = qrCodeMessage;
-      alert(`QR Code detected: ${qrCodeMessage}`);
     }
   );
 </script>

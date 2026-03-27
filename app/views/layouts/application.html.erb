@@ -54,5 +54,23 @@
     </div>
 
     <%= yield %>
+
+    <div id="confirm-modal"
+         data-controller="confirm"
+         data-action="keydown@window->confirm#keydown"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="confirm-message">
+      <div class="modal-backdrop" data-action="click->confirm#backdropClick">
+        <div class="modal-card">
+          <p class="modal-icon">⚠</p>
+          <p id="confirm-message" class="modal-message" data-confirm-target="message"></p>
+          <div class="modal-actions">
+            <button class="btn btn-outline" data-action="click->confirm#cancel">Cancelar</button>
+            <button class="btn btn-danger" data-confirm-target="confirmBtn" data-action="click->confirm#confirm">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
