@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_220546) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_26_000001) do
   create_table "alunos", force: :cascade do |t|
     t.string "cpf"
     t.datetime "created_at", null: false
     t.date "data_nascimento"
     t.string "nome"
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_alunos_on_user_id"
   end
 
   create_table "aulas", force: :cascade do |t|
@@ -87,6 +89,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_220546) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "alunos", "users"
   add_foreign_key "aulas", "horarios"
   add_foreign_key "horarios", "turmas"
   add_foreign_key "presencas", "alunos"
