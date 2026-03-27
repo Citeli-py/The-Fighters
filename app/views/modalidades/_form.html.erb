@@ -1,8 +1,8 @@
 <%= form_with(model: modalidade) do |form| %>
-  <% if modalidade.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(modalidade.errors.count, "error") %> prohibited this modalidade from being saved:</h2>
 
+  <% if modalidade.errors.any? %>
+    <div class="form-errors">
+      <h3><%= pluralize(modalidade.errors.count, "erro") %> encontrado(s):</h3>
       <ul>
         <% modalidade.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,12 +11,14 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :nome, style: "display: block" %>
-    <%= form.text_field :nome %>
+  <div class="form-group">
+    <%= form.label :nome, "Nome da modalidade" %>
+    <%= form.text_field :nome, class: "form-input", placeholder: "Ex: Taekwondo, Kickboxing..." %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.submit modalidade.persisted? ? "Salvar alterações" : "Criar modalidade", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", modalidade.persisted? ? modalidade : modalidades_path, class: "btn btn-ghost" %>
   </div>
+
 <% end %>

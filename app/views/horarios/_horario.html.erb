@@ -1,23 +1,29 @@
-<div id="<%= dom_id horario %>">
-  <div hidden>
-    <strong>Turma:</strong>
-    <%= horario.turma.nome %>
-  </div>
-
+<div id="<%= dom_id horario %>" class="item-card">
   <div>
-    <strong>Dia semana:</strong>
-    <%= horario.dia_semana_string %>
+    <span class="horario-dia-badge"><%= horario.dia_semana_string %></span>
   </div>
 
-  <div>
-    <strong>Hora início:</strong>
-    <%= horario.hora_inicio.strftime("%H:%M") %>
+  <div class="horario-time">
+    <span class="horario-time__value"><%= horario.hora_inicio.strftime("%H:%M") %></span>
+    <span class="horario-time__sep">→</span>
+    <span class="horario-time__value"><%= horario.hora_fim.strftime("%H:%M") %></span>
   </div>
 
-  <div>
-    <strong>Hora fim:</strong>
-    <%= horario.hora_fim.strftime("%H:%M") %>
+  <div class="item-card__meta">
+    <div class="item-card__meta-row">
+      <span class="item-card__label">Turma</span>
+      <%= horario.turma.nome %>
+    </div>
   </div>
 
+  <div class="item-card__actions">
+    <%= link_to "Ver", horario, class: "btn btn-outline-yellow btn-sm" %>
+    <%= link_to "Editar", edit_horario_path(horario), class: "btn btn-ghost btn-sm" %>
+    <%= button_to "Excluir",
+      horario,
+      method: :delete,
+      class: "btn btn-danger btn-sm",
+      data: { turbo_confirm: "Excluir este horário?" } %>
+  </div>
 </div>
 

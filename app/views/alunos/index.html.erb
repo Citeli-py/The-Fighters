@@ -1,28 +1,40 @@
 <div class="page">
 
   <% if notice.present? %>
-    <div class="alert-success">
-      <%= notice %>
-    </div>
+    <div class="alert-success"><%= notice %></div>
   <% end %>
 
-  <div class="section">
-
-    <strong> <%= link_to "\< Voltar", root_path %> </strong>
-
-    <h1>Alunos</h1>
-
-    <%= link_to "Novo aluno", new_aluno_path, class: "btn btn-primary" %>
+  <div class="page-header">
+    <div>
+      <%= link_to "← Dashboard", root_path, class: "back-link" %>
+      <h1>Alunos <span class="count-badge"><%= @alunos.count %></span></h1>
+    </div>
+    <%= link_to "＋ Novo aluno", new_aluno_path, class: "btn btn-primary" %>
   </div>
 
-  <div class="grid">
-    <% @alunos.each do |aluno| %>
-      <%= render aluno %>
-    <% end %>
+  <div class="search-bar" data-controller="search">
+    <input type="text"
+           placeholder="🔍  Buscar por nome..."
+           class="search-input"
+           data-search-target="input"
+           data-action="input->search#filter">
   </div>
 
   <% if @alunos.empty? %>
-    <p class="empty">Nenhum aluno cadastrado.</p>
+    <div class="empty-state">
+      <div class="empty-state__icon">🥋</div>
+      <p class="empty-state__text">Nenhum aluno cadastrado ainda.</p>
+      <%= link_to "Cadastrar primeiro aluno", new_aluno_path, class: "btn btn-primary" %>
+    </div>
+  <% else %>
+    <div class="grid" data-search-target="list">
+      <% @alunos.each do |aluno| %>
+        <%= render aluno %>
+      <% end %>
+    </div>
+    <p class="search-empty" data-search-target="empty" style="display:none;">
+      Nenhum aluno encontrado para essa busca.
+    </p>
   <% end %>
 
 </div>

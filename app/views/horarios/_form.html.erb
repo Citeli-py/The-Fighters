@@ -1,65 +1,59 @@
-<div class="page">
-  <div class="card form-card">
-    <h2 class="form-title">🕒 Novo Horário</h2>
+<%= form_with(model: horario) do |form| %>
 
-    <%= form_with(model: horario) do |form| %>
-
-      <% if horario.errors.any? %>
-        <div class="form-errors">
-          <h3><%= pluralize(horario.errors.count, "erro") %> impediram o salvamento:</h3>
-          <ul>
-            <% horario.errors.each do |error| %>
-              <li><%= error.full_message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-
-      <div class="form-group">
-        <%= form.label :turma_id %>
-
-        <% if @horario.turma.nil? %>
-          <%= form.collection_select :turma_id,
-            Turma.order(:id),
-            :id,
-            :nome,
-            { prompt: "Selecione a turma" },
-            class: "form-input"
-          %>
-        <% else %>
-          <div class="form-static">
-            <strong><%= @horario.turma.nome %></strong>
-          </div>
-          <%= form.hidden_field :turma_id %>
+  <% if horario.errors.any? %>
+    <div class="form-errors">
+      <h3><%= pluralize(horario.errors.count, "erro") %> encontrado(s):</h3>
+      <ul>
+        <% horario.errors.each do |error| %>
+          <li><%= error.full_message %></li>
         <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :turma_id, "Turma" %>
+
+    <% if @horario.turma.nil? %>
+      <%= form.collection_select :turma_id,
+        Turma.order(:id),
+        :id,
+        :nome,
+        { prompt: "Selecione a turma" },
+        class: "form-input"
+      %>
+    <% else %>
+      <div class="form-static">
+        <strong><%= @horario.turma.nome %></strong>
       </div>
-
-      <div class="form-group">
-        <%= form.label :dia_semana, "Dia da semana" %>
-        <%= form.select :dia_semana,
-          Horario::DIAS_SEMANA.map { |nome, valor| [nome, valor] },
-          { prompt: "Selecione o dia" },
-          class: "form-input"
-        %>
-      </div>
-
-      <div class="form-grid">
-        <div class="form-group">
-          <%= form.label :hora_inicio %>
-          <%= form.time_field :hora_inicio, class: "form-input" %>
-        </div>
-
-        <div class="form-group">
-          <%= form.label :hora_fim %>
-          <%= form.time_field :hora_fim, class: "form-input" %>
-        </div>
-      </div>
-
-      <div class="form-actions">
-        <%= form.submit "Salvar horário", class: "btn btn-primary" %>
-        <%= link_to "Cancelar", turmas_path, class: "btn btn-outline" %>
-      </div>
-
+      <%= form.hidden_field :turma_id %>
     <% end %>
   </div>
-</div>
+
+  <div class="form-group">
+    <%= form.label :dia_semana, "Dia da semana" %>
+    <%= form.select :dia_semana,
+      Horario::DIAS_SEMANA.map { |nome, valor| [nome, valor] },
+      { prompt: "Selecione o dia" },
+      class: "form-input"
+    %>
+  </div>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <%= form.label :hora_inicio, "Hora início" %>
+      <%= form.time_field :hora_inicio, class: "form-input" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :hora_fim, "Hora fim" %>
+      <%= form.time_field :hora_fim, class: "form-input" %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit horario.persisted? ? "Salvar alterações" : "Criar horário", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", horario.persisted? ? horario : horarios_path, class: "btn btn-ghost" %>
+  </div>
+
+<% end %>

@@ -1,34 +1,27 @@
-<% content_for :title, "Turmas" %>
-
-<div class="page-header">
-  <strong> <%= link_to "\< Voltar", root_path %> </strong>
-
-  <h1>🥋 Turmas</h1>
-
-  <%= link_to "➕ Nova Turma",
-    new_turma_path,
-    class: "btn btn-primary"
-  %>
-</div>
-
-
-<% if notice.present? %>
-  <div class="alert-success">
-    <%= notice %>
-  </div>
-<% end %>
-
 <div class="page">
-
-  <div class="grid">
-    <% @turmas.each do |turma| %>
-      <div class="card destaque">
-        <div class="card-header"><%= turma.nome %></div>
-
-        <p><strong>Modalidade:</strong> <%= turma.modalidade.nome %></p>
-
-        <%= link_to "Ver turma", turma, class: "btn btn-primary btn-sm" %>
-      </div>
-    <% end %>
+  <div class="page-header">
+    <div>
+      <%= link_to "← Dashboard", root_path, class: "back-link" %>
+      <h1>Turmas <span class="count-badge"><%= @turmas.count %></span></h1>
+    </div>
+    <%= link_to "＋ Nova turma", new_turma_path, class: "btn btn-primary" %>
   </div>
+
+  <% if notice.present? %>
+    <div class="alert-success"><%= notice %></div>
+  <% end %>
+
+  <% if @turmas.any? %>
+    <div class="grid">
+      <% @turmas.each do |turma| %>
+        <%= render turma %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <div class="empty-state__icon">🥋</div>
+      <p class="empty-state__text">Nenhuma turma cadastrada ainda.</p>
+      <%= link_to "Criar primeira turma", new_turma_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>
 </div>

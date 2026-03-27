@@ -1,12 +1,13 @@
-<% content_for :title, "Editing aluno" %>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← #{@aluno.nome}", @aluno, class: "back-link" %>
+      <h1>Editar Aluno</h1>
+    </div>
+  </div>
 
-<h1>Editing aluno</h1>
-
-<%= render "form", aluno: @aluno %>
-
-<br>
-
-<div>
-  <%= link_to "Show this aluno", @aluno %> |
-  <%= link_to "Back to alunos", alunos_path %>
+  <div class="form-dark">
+    <h2 class="form-title">Dados do aluno</h2>
+    <%= render "form", aluno: @aluno %>
+  </div>
 </div>

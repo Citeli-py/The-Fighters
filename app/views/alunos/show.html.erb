@@ -1,16 +1,91 @@
-<p style="color: green"><%= notice %></p>
+<% initials = @aluno.nome.split.first(2).map { |w| w[0] }.join.upcase %>
 
-<%= render @aluno %>
+<div class="page">
+  <% if notice.present? %>
+    <div class="alert-success"><%= notice %></div>
+  <% end %>
 
-
-<h1>Turmas</h1>
-
-<% if @aluno.turmas.any? %>
-  <div class="grid">
-    <% @aluno.turmas.each do |turma| %>
-      <%= render turma, show: false%>
-    <% end %>
+  <div class="page-header">
+    <div>
+      <%= link_to "← Alunos", alunos_path, class: "back-link" %>
+      <h1>Perfil do Aluno</h1>
+    </div>
+    <div class="page-header__actions">
+      <%= link_to "Editar", edit_aluno_path(@aluno), class: "btn btn-primary btn-sm" %>
+      <%= button_to "Excluir", @aluno, method: :delete,
+          class: "btn btn-danger btn-sm",
+          data: { turbo_confirm: "Excluir #{@aluno.nome}?" } %>
+    </div>
   </div>
-<% else %>
-  <p>Este aluno não está matriculado em nenhuma turma.</p>
-<% end %>
+
+  <div class="aluno-hero">
+    <div class="aluno-hero__left">
+      <div class="aluno-avatar aluno-avatar--lg"><%= initials %></div>
+      <div>
+        <h2 class="aluno-hero__name"><%= @aluno.nome %></h2>
+        <div class="aluno-hero__badges">
+          <% @aluno.turmas.each do |turma| %>
+            <span class="aluno-turma-badge"><%= turma.nome %></span>
+          <% end %>
+          <% if @aluno.turmas.empty? %>
+            <span class="aluno-no-turma">Sem turma matriculada</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="aluno-hero__stats">
+      <% if @aluno.data_nascimento.present? %>
+        <div class="aluno-stat">
+          <span class="aluno-stat__value"><%= ((Date.today - @aluno.data_nascimento) / 365.25).floor %></span>
+          <span class="aluno-stat__label">anos</span>
+        </div>
+      <% end %>
+      <div class="aluno-stat">
+        <span class="aluno-stat__value"><%= @aluno.presencas.count %></span>
+        <span class="aluno-stat__label">presenças</span>
+      </div>
+      <div class="aluno-stat">
+        <span class="aluno-stat__value"><%= @aluno.turmas.count %></span>
+        <span class="aluno-stat__label">turmas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="aluno-details-card">
+    <h3 class="aluno-details-card__title">Dados Pessoais</h3>
+    <div class="aluno-details-grid">
+      <div class="aluno-detail">
+        <span class="aluno-detail__label">CPF</span>
+        <span class="aluno-detail__value"><%= @aluno.cpf %></span>
+      </div>
+      <div class="aluno-detail">
+        <span class="aluno-detail__label">Data de Nascimento</span>
+        <span class="aluno-detail__value"><%= @aluno.data_nascimento_formatada %></span>
+      </div>
+    </div>
+  </div>
+
+  <% if @aluno.turmas.any? %>
+    <div class="section">
+      <h2>Turmas matriculadas</h2>
+      <div class="grid">
+        <% @aluno.turmas.each do |turma| %>
+          <div class="aluno-turma-card">
+            <div class="aluno-turma-card__header"><%= turma.nome %></div>
+            <div class="aluno-turma-card__info">
+              <span class="aluno-info__label">Modalidade</span>
+              <%= turma.modalidade.nome %>
+            </div>
+            <% if turma.descricao.present? %>
+              <p class="aluno-turma-card__desc"><%= turma.descricao %></p>
+            <% end %>
+            <div class="aluno-card__actions">
+              <%= link_to "Ver turma", turma, class: "btn btn-outline-yellow btn-sm" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

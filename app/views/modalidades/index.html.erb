@@ -1,16 +1,27 @@
-<p style="color: green"><%= notice %></p>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← Dashboard", root_path, class: "back-link" %>
+      <h1>Modalidades <span class="count-badge"><%= @modalidades.count %></span></h1>
+    </div>
+    <%= link_to "＋ Nova modalidade", new_modalidade_path, class: "btn btn-primary" %>
+  </div>
 
-<% content_for :title, "Modalidades" %>
+  <% if notice.present? %>
+    <div class="alert-success"><%= notice %></div>
+  <% end %>
 
-<h1>Modalidades</h1>
-
-<div id="modalidades">
-  <% @modalidades.each do |modalidade| %>
-    <%= render modalidade %>
-    <p>
-      <%= link_to "Show this modalidade", modalidade %>
-    </p>
+  <% if @modalidades.any? %>
+    <div class="grid">
+      <% @modalidades.each do |modalidade| %>
+        <%= render modalidade %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <div class="empty-state__icon">🥋</div>
+      <p class="empty-state__text">Nenhuma modalidade cadastrada ainda.</p>
+      <%= link_to "Criar primeira modalidade", new_modalidade_path, class: "btn btn-primary" %>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New modalidade", new_modalidade_path %>

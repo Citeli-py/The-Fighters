@@ -1,10 +1,24 @@
-<p style="color: green"><%= notice %></p>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← Modalidades", modalidades_path, class: "back-link" %>
+      <h1><%= @modalidade.nome %></h1>
+    </div>
+    <div class="page-header__actions">
+      <%= link_to "Editar", edit_modalidade_path(@modalidade), class: "btn btn-primary btn-sm" %>
+      <%= button_to "Excluir",
+        @modalidade,
+        method: :delete,
+        class: "btn btn-danger btn-sm",
+        data: { turbo_confirm: "Excluir #{@modalidade.nome}?" } %>
+    </div>
+  </div>
 
-<%= render @modalidade %>
+  <% if notice.present? %>
+    <div class="alert-success"><%= notice %></div>
+  <% end %>
 
-<div>
-  <%= link_to "Edit this modalidade", edit_modalidade_path(@modalidade) %> |
-  <%= link_to "Back to modalidades", modalidades_path %>
-
-  <%= button_to "Destroy this modalidade", @modalidade, method: :delete %>
+  <div class="item-card item-card--highlight">
+    <p class="item-card__title"><%= @modalidade.nome %></p>
+  </div>
 </div>

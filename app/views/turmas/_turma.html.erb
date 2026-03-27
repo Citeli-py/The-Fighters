@@ -1,30 +1,28 @@
-<div id="<%= dom_id turma %>" class="turma-header">
+<div id="<%= dom_id turma %>" class="item-card">
+  <p class="item-card__title"><%= turma.nome %></p>
 
-  <div class="card-header">
-    <strong> <%= turma.nome %> </strong>
+  <div class="item-card__meta">
+    <div class="item-card__meta-row">
+      <span class="item-card__label">Modalidade</span>
+      <%= turma.modalidade.nome %>
+    </div>
+    <% if turma.descricao.present? %>
+      <div class="item-card__meta-row">
+        <span class="item-card__label">Descrição</span>
+        <%= turma.descricao %>
+      </div>
+    <% end %>
   </div>
 
-  <div>
-    <strong>Modalidade:</strong>
-    <%= turma.modalidade.nome %>
-  </div>
-
-  <div>
-    <strong>Descricao:</strong>
-    <%= turma.descricao %>
-  </div>
-
-  <div class="turma-actions">
-    <%= link_to "Ver", turma, class: "btn btn-outline btn-sm" %>
-    <%= link_to "✏️ Editar Turma", edit_turma_path(turma), class: "btn btn-outline" %>
+  <div class="item-card__actions">
+    <%= link_to "Ver", turma, class: "btn btn-outline-yellow btn-sm" %>
+    <%= link_to "Editar", edit_turma_path(turma), class: "btn btn-ghost btn-sm" %>
     <% if local_assigns[:show].present? %>
-      <%= button_to "Remover Turma",
+      <%= button_to "Excluir",
         turma_path(turma),
         method: :delete,
-        class: "btn btn-danger",
-        data: { turbo_confirm: "Tem certeza que deseja remover #{turma.nome}?" } %>
-    <%end%>
-
+        class: "btn btn-danger btn-sm",
+        data: { turbo_confirm: "Excluir #{turma.nome}?" } %>
+    <% end %>
   </div>
-
 </div>

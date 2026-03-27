@@ -33,14 +33,14 @@
         </div>
       </a>
 
-      <div>
+      <nav class="app-nav">
         <% if user_signed_in? %>
-          <span class="user-greeting">Olá, <%= current_user.email %>!</span>
-          <%= button_to 'Sair', destroy_user_session_path, method: :delete, class: "" %>
+          <span class="user-greeting">Olá, <%= current_user.email %></span>
+          <%= button_to 'Sair', destroy_user_session_path, method: :delete, class: "btn-logout" %>
         <% else %>
-          <%= link_to 'Entrar', new_user_session_path, class: "" %>
+          <%= link_to 'Entrar', new_user_session_path, class: "btn-logout" %>
         <% end %>
-      </div>
+      </nav>
     </header>
 
     <% if notice.present? %>

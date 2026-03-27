@@ -1,10 +1,22 @@
-<p style="color: green"><%= notice %></p>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← Horários", horarios_path, class: "back-link" %>
+      <h1>Horário</h1>
+    </div>
+    <div class="page-header__actions">
+      <%= link_to "Editar", edit_horario_path(@horario), class: "btn btn-primary btn-sm" %>
+      <%= button_to "Excluir",
+        @horario,
+        method: :delete,
+        class: "btn btn-danger btn-sm",
+        data: { turbo_confirm: "Excluir este horário?" } %>
+    </div>
+  </div>
 
-<%= render @horario %>
+  <% if notice.present? %>
+    <div class="alert-success"><%= notice %></div>
+  <% end %>
 
-<div>
-  <%= link_to "Edit this horario", edit_horario_path(@horario) %> |
-  <%= link_to "Back to horarios", horarios_path %>
-
-  <%= button_to "Destroy this horario", @horario, method: :delete %>
+  <%= render @horario %>
 </div>

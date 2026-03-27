@@ -1,18 +1,91 @@
-<div class="page-header">
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← Dashboard", root_path, class: "back-link" %>
+      <h1>Aulas</h1>
+    </div>
+  </div>
 
-  <strong> <%= link_to "\< Voltar", root_path %> </strong>
+  <%= form_with url: aulas_path, method: :get, class: "filter-bar" do |f| %>
+    <div class="filter-bar__fields">
+      <div class="filter-bar__field">
+        <%= f.label :modalidade_id, "Modalidade", class: "filter-bar__label" %>
+        <%= f.select :modalidade_id,
+              options_from_collection_for_select(@modalidades, :id, :nome, params[:modalidade_id]),
+              { include_blank: "Todas" },
+              class: "filter-bar__select",
+              onchange: "this.form.requestSubmit()" %>
+      </div>
 
-  <h1>Aulas</h1>
+      <div class="filter-bar__field">
+        <%= f.label :turma_id, "Turma", class: "filter-bar__label" %>
+        <%= f.select :turma_id,
+              options_from_collection_for_select(@turmas, :id, :nome, params[:turma_id]),
+              { include_blank: "Todas" },
+              class: "filter-bar__select",
+              onchange: "this.form.requestSubmit()" %>
+      </div>
+    </div>
 
-  <%# <%= link_to "➕ Nova Aula",
-    new_turma_path,
-    class: "btn btn-primary"
-  %>
-  <p></p>
-</div>
-
-<div class="grid" style="padding: 1rem;">
-  <% @aulas.each do |aula| %>
-    <%= render aula %>
+    <% if params[:turma_id].present? || params[:modalidade_id].present? %>
+      <%= link_to "✕ Limpar filtros", aulas_path, class: "filter-bar__clear" %>
+    <% end %>
   <% end %>
+
+  <details class="accordion" open>
+    <summary class="accordion__header">
+      <span class="accordion__title">Aulas da semana</span>
+      <span class="count-badge"><%= @aulas_semana.count %></span>
+      <span class="accordion__arrow">▾</span>
+    </summary>
+    <div class="accordion__body">
+      <% if @aulas_semana.any? %>
+        <div class="grid">
+          <% @aulas_semana.each do |aula| %>
+            <%= render aula %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="accordion__empty">Nenhuma aula esta semana.</p>
+      <% end %>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary class="accordion__header">
+      <span class="accordion__title">Próximas aulas</span>
+      <span class="count-badge"><%= @aulas_proximas.count %></span>
+      <span class="accordion__arrow">▾</span>
+    </summary>
+    <div class="accordion__body">
+      <% if @aulas_proximas.any? %>
+        <div class="grid">
+          <% @aulas_proximas.each do |aula| %>
+            <%= render aula %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="accordion__empty">Nenhuma aula futura agendada.</p>
+      <% end %>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary class="accordion__header">
+      <span class="accordion__title">Aulas passadas</span>
+      <span class="count-badge"><%= @aulas_passadas.count %></span>
+      <span class="accordion__arrow">▾</span>
+    </summary>
+    <div class="accordion__body">
+      <% if @aulas_passadas.any? %>
+        <div class="grid">
+          <% @aulas_passadas.each do |aula| %>
+            <%= render aula %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="accordion__empty">Nenhuma aula passada registrada.</p>
+      <% end %>
+    </div>
+  </details>
 </div>
