@@ -417,7 +417,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
-  brakeman (~> 7.1.2)
+  brakeman (>= 7.1.2)
   bundler-audit
   capybara
   debug
