@@ -1,0 +1,6 @@
+<div class="toast toast--<%= type %>"
+     data-controller="toast"
+     data-toast-duration-value="<%= local_assigns.fetch(:duration, 4000) %>">
+  <span class="toast-message"><%= message %></span>
+  <button class="toast-close" data-action="click->toast#dismiss" aria-label="Fechar">&#x2715;</button>
+</div>

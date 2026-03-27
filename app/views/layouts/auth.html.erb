@@ -14,6 +14,15 @@
   </head>
 
   <body>
+    <div id="toast-container" class="toast-container">
+      <% if notice.present? %>
+        <%= render "shared/toast", type: "success", message: notice %>
+      <% end %>
+      <% if alert.present? %>
+        <%= render "shared/toast", type: "error", message: alert %>
+      <% end %>
+    </div>
+
     <div class="auth-layout">
       <aside class="auth-brand">
         <img src="/logo.png" alt="The Fighters" class="auth-brand-logo" />

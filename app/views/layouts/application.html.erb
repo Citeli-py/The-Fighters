@@ -43,15 +43,14 @@
       </nav>
     </header>
 
-    <% if notice.present? %>
-      <div class="alert-success"> <%= notice %> </div>
-    <% end %>
-
-    <% if alert.present? %>
-      <div class="alert-failure"><%= alert %></div>
-    <% end %>
-
-    
+    <div id="toast-container" class="toast-container">
+      <% if notice.present? %>
+        <%= render "shared/toast", type: "success", message: notice %>
+      <% end %>
+      <% if alert.present? %>
+        <%= render "shared/toast", type: "error", message: alert %>
+      <% end %>
+    </div>
 
     <%= yield %>
   </body>
