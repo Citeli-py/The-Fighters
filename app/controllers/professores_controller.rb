@@ -22,7 +22,7 @@ class ProfessoresController < ApplicationController
 
     @professor = result[:professor]
     flash[:temp_password] = result[:password]
-    redirect_to @professor, notice: "Professor criado. Login: #{@professor.user.username}"
+    redirect_to @professor, notice: "Professor criado."
   rescue ActiveRecord::RecordInvalid => e
     @professor = Professor.new(professor_params)
     @professor.errors.add(:base, e.message)
@@ -49,7 +49,7 @@ class ProfessoresController < ApplicationController
   def reset_password
     new_password = ProfessoresService.reset_password(@professor)
     flash[:temp_password] = new_password
-    redirect_to @professor, notice: "Senha resetada. Login: #{@professor.user.username}"
+    redirect_to @professor, notice: "Senha resetada."
   end
 
   private

@@ -29,10 +29,4 @@ class User < ApplicationRecord
     admin? || professor?
   end
 
-  # Login por username em vez de email
-  def self.find_for_database_authentication(warden_conditions)
-    conditions = warden_conditions.dup
-    username = conditions.delete(:username)
-    where(conditions.to_h).where(username: username).first
-  end
 end
