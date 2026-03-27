@@ -18,7 +18,20 @@ class AulasController < ApplicationController
 
 
   def index
-    @aulas = Aula.order(id: :desc)
+    today = Date.current
+
+    @turmas      = Turma.order(:nome)
+    @modalidades = Modalidade.order(:nome)
+
+    scope = Aula.includes(horario: { turma: :modalidade })
+                .joins(horario: { turma: :modalidade })
+
+    scope = scope.where(horarios: { turma_id: params[:turma_id] }) if params[:turma_id].present?
+    scope = scope.where(turmas: { modalidade_id: params[:modalidade_id] }) if params[:modalidade_id].present?
+
+    @aulas_semana   = scope.where(data: today.beginning_of_week..today.end_of_week).order(:data)
+    @aulas_proximas = scope.where("aulas.data > ?", today.end_of_week).order(:data)
+    @aulas_passadas = scope.where("aulas.data < ?", today.beginning_of_week).order(data: :desc)
   end
 
   # PATCH /aulas/:id/cancel
