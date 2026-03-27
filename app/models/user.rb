@@ -28,5 +28,4 @@ class User < ApplicationRecord
   def admin_or_professor?
     admin? || professor?
   end
-
 end

@@ -22,5 +22,4 @@ class ApplicationController < ActionController::Base
   def layout_by_resource
     devise_controller? ? "auth" : "application"
   end
-
 end
