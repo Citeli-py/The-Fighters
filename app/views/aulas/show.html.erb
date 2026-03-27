@@ -16,7 +16,7 @@
         <%= @aula.status_nome %>
       </span>
 
-      <% if current_user.admin? %>
+      <% if current_user.admin_or_professor? %>
         <div class="aula-hero__actions">
           <% if @aula.is_cancelada && !@aula.is_realizada %>
             <%= button_to "Confirmar aula",
@@ -37,7 +37,7 @@
       <% end %>
     </div>
 
-    <% if current_user.admin? %>
+    <% if current_user.admin_or_professor? %>
       <div class="aula-qr">
         <span class="aula-qr__label">QR Code da Aula</span>
         <%= raw @qr.as_svg(
@@ -64,7 +64,7 @@
     </div>
   </div>
 
-  <% if current_user.admin? %>
+  <% if current_user.admin_or_professor? %>
     <div class="page-section">
       <div class="page-section__header">
         <h2 class="page-section__title">Adicionar presença</h2>

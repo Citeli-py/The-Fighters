@@ -1,5 +1,6 @@
 class ProfessoresController < ApplicationController
   before_action :require_admin_or_professor!
+  before_action :require_admin!, only: %i[new create destroy]
   before_action :set_professor, only: %i[ show edit update destroy reset_password ]
 
   def index
@@ -45,7 +46,9 @@ class ProfessoresController < ApplicationController
   end
 
   def destroy
-    @professor.user.destroy!
+    user = @professor.user
+    @professor.destroy!
+    user.destroy!
     redirect_to professores_path, notice: "Professor removido.", status: :see_other
   end
 

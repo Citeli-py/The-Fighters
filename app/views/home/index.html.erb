@@ -12,8 +12,8 @@
         <p class="nav-card__desc">Registre presenças via QR Code e acompanhe as aulas do dia</p>
       </div>
       <div class="nav-card__actions">
-        <%= link_to "Presença", "#", class: "btn btn-primary btn-sm" %>
-        <%= link_to "Acessar", "aulas/", class: "btn btn-outline-yellow btn-sm" %>
+        <%= link_to "Presença", aulas_path, class: "btn btn-primary btn-sm" %>
+        <%= link_to "Acessar", aulas_path, class: "btn btn-outline-yellow btn-sm" %>
       </div>
     </div>
 
@@ -30,7 +30,7 @@
       </div>
     <% end %>
 
-    <% if current_user.admin? %>
+    <% if current_user.admin_or_professor? %>
       <div class="nav-card">
         <div class="nav-card__icon">👥</div>
         <div class="nav-card__body">

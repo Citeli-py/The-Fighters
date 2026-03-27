@@ -18,7 +18,7 @@
   <div class="item-card__actions">
     <%= link_to "Ver", aula_path(aula), class: "btn btn-outline-yellow btn-sm" %>
 
-    <% if current_user.admin? %>
+    <% if current_user.admin_or_professor? %>
       <% if aula.is_cancelada && !aula.is_realizada %>
         <%= button_to "Confirmar",
           confirm_aula_path(aula),

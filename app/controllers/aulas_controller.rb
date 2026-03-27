@@ -1,6 +1,6 @@
 class AulasController < ApplicationController
   before_action :set_aula, only: %i[ show cancel_aula confirm_aula ]
-  before_action :require_admin!, only: %i[ cancel_aula confirm_aula ]
+  before_action :require_admin_or_professor!, only: %i[cancel_aula confirm_aula]
 
 
   # GET /aulas/1 or /aulas/1.json

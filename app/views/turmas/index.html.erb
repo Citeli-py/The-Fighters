@@ -4,7 +4,9 @@
       <%= link_to "← Dashboard", root_path, class: "back-link" %>
       <h1>Turmas <span class="count-badge"><%= @turmas.count %></span></h1>
     </div>
-    <%= link_to "＋ Nova turma", new_turma_path, class: "btn btn-primary" %>
+    <% if current_user.admin_or_professor? %>
+      <%= link_to "＋ Nova turma", new_turma_path, class: "btn btn-primary" %>
+    <% end %>
   </div>
 
   <% if notice.present? %>
