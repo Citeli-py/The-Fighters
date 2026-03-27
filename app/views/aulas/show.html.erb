@@ -37,16 +37,18 @@
       <% end %>
     </div>
 
-    <div class="aula-qr">
-      <span class="aula-qr__label">QR Code da Aula</span>
-      <%= raw @qr.as_svg(
-        offset: 0,
-        color: "FFF",
-        shape_rendering: "crispEdges",
-        module_size: 6,
-        standalone: true
-      ) %>
-    </div>
+    <% if current_user.admin? %>
+      <div class="aula-qr">
+        <span class="aula-qr__label">QR Code da Aula</span>
+        <%= raw @qr.as_svg(
+          offset: 0,
+          color: "FFF",
+          shape_rendering: "crispEdges",
+          module_size: 6,
+          standalone: true
+        ) %>
+      </div>
+    <% end %>
   </div>
 
   <div class="page-section">
@@ -62,16 +64,18 @@
     </div>
   </div>
 
-  <div class="page-section">
-    <div class="page-section__header">
-      <h2 class="page-section__title">Adicionar presença</h2>
-    </div>
+  <% if current_user.admin? %>
+    <div class="page-section">
+      <div class="page-section__header">
+        <h2 class="page-section__title">Adicionar presença</h2>
+      </div>
 
-    <div id="alunos-disponiveis-grid" class="alunos-disponiveis-grid">
-      <%= render partial: "presencas/aluno_disponivel",
-                 collection: @alunos_disponiveis,
-                 as: :aluno,
-                 locals: { aula: @aula } %>
+      <div id="alunos-disponiveis-grid" class="alunos-disponiveis-grid">
+        <%= render partial: "presencas/aluno_disponivel",
+                   collection: @alunos_disponiveis,
+                   as: :aluno,
+                   locals: { aula: @aula } %>
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>

@@ -1,6 +1,6 @@
 class AulasController < ApplicationController
-  before_action :set_aula, only: %i[ show cancel_aula confirm_aula]
-  before_action :require_admin!, only: %i[ show cancel_aula confirm_aula]
+  before_action :set_aula, only: %i[ show cancel_aula confirm_aula ]
+  before_action :require_admin!, only: %i[ cancel_aula confirm_aula ]
 
 
   # GET /aulas/1 or /aulas/1.json
@@ -12,8 +12,10 @@ class AulasController < ApplicationController
     # alunos da turma que ainda NÃO marcaram presença
     @alunos_disponiveis = turma.alunos.where.not(id: @presencas.select(:aluno_id))
 
-    qr_url = presenca_checkin_url(code: @aula.code)
-    @qr = RQRCode::QRCode.new(qr_url)
+    if current_user.admin?
+      qr_url = presenca_checkin_url(code: @aula.code)
+      @qr = RQRCode::QRCode.new(qr_url)
+    end
   end
 
 

@@ -1,4 +1,5 @@
 class ModalidadesController < ApplicationController
+  before_action :require_admin!
   before_action :set_modalidade, only: %i[ show edit update destroy ]
 
   # GET /modalidades or /modalidades.json

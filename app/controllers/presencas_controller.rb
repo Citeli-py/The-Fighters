@@ -1,4 +1,5 @@
 class PresencasController < ApplicationController
+  before_action :require_admin!, only: %i[ create destroy ]
   before_action :set_aula, only: %i[ create destroy ]
 
   def create
