@@ -15,9 +15,11 @@ export default class extends Controller {
     this.resolve = resolve
     this.messageTarget.textContent = message
 
+    const form = (element instanceof HTMLFormElement) ? element : element?.closest?.("form")
     const method = (
+      form?.querySelector("input[name='_method']")?.value ||
+      form?.method ||
       element?.dataset?.turboMethod ||
-      element?.querySelector?.("input[name='_method']")?.value ||
       ""
     ).toLowerCase()
     const isDanger = method === "delete"
