@@ -1,9 +1,8 @@
-<div id="<%= dom_id presenca %>" class="card">
-  <strong><%= presenca.aluno.nome %></strong>
-
-  <%= button_to "Remover",
+<div id="<%= dom_id presenca %>" class="presenca-chip">
+  <span><%= presenca.aluno.nome %></span>
+  <%= button_to "✕",
     aula_presenca_path(presenca.aula, presenca),
     method: :delete,
     class: "btn btn-danger btn-sm",
-    data: { turbo_confirm: "Remover presença?" } %>
+    data: { turbo_confirm: "Remover presença de #{presenca.aluno.nome}?" } %>
 </div>

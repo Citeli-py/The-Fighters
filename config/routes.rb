@@ -6,6 +6,12 @@ Rails.application.routes.draw do
   resources :modalidades
   resources :alunos
 
+  resources :professores do
+    member { patch :reset_password }
+  end
+
+  resource :perfil, only: %i[ edit update ], controller: "perfil"
+
   # Aulas Routes
   resources :aulas do
     resources :presencas, only: [ :create, :destroy ]

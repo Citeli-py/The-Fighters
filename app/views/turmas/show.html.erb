@@ -1,62 +1,76 @@
-<% if notice.present? %>
-  <div class="alert-success">
-    <%= notice %>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← Turmas", turmas_path, class: "back-link" %>
+      <h1><%= @turma.nome %></h1>
+    </div>
+    <div class="page-header__actions">
+      <%= link_to "Editar", edit_turma_path(@turma), class: "btn btn-primary btn-sm" %>
+      <%= button_to "Excluir",
+        @turma,
+        method: :delete,
+        class: "btn btn-danger btn-sm",
+        data: { turbo_confirm: "Excluir #{@turma.nome}?" } %>
+    </div>
   </div>
-<% end %>
 
-<div class="turma-show">
+  <% if notice.present? %>
+    <div class="alert-success"><%= notice %></div>
+  <% end %>
 
-  <!-- Turma -->
-  <%= render @turma, show: true %>
+  <div class="item-card item-card--highlight" style="margin-bottom: 2rem;">
+    <p class="item-card__title"><%= @turma.nome %></p>
+    <div class="item-card__meta">
+      <div class="item-card__meta-row">
+        <span class="item-card__label">Modalidade</span>
+        <%= @turma.modalidade.nome %>
+      </div>
+      <% if @turma.descricao.present? %>
+        <div class="item-card__meta-row">
+          <span class="item-card__label">Descrição</span>
+          <%= @turma.descricao %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
-  <!-- Alunos -->
-  <section class="section">
-
-    <div class="page-header">
-      <h2>👥 Alunos da Turma</h2>
-
-      <%= link_to "Adicionar aluno",
-        new_turma_turma_aluno_path(@turma),
-        class: "btn btn-primary btn-sm"
-      %>
+  <div class="page-section">
+    <div class="page-section__header">
+      <h2 class="page-section__title">Alunos <span class="count-badge"><%= @turma.alunos.count %></span></h2>
+      <%= link_to "＋ Adicionar aluno", new_turma_turma_aluno_path(@turma), class: "btn btn-primary btn-sm" %>
     </div>
 
     <% if @turma.alunos.any? %>
       <div class="grid">
         <% @turma.alunos.each do |aluno| %>
-            <%= render aluno, turma: @turma %>
+          <%= render aluno, turma: @turma %>
         <% end %>
-        
       </div>
     <% else %>
-      <p class="empty">Nenhum aluno matriculado.</p>
+      <div class="empty-state">
+        <div class="empty-state__icon">👥</div>
+        <p class="empty-state__text">Nenhum aluno matriculado nesta turma.</p>
+      </div>
     <% end %>
-  </section>
+  </div>
 
-  <!-- Horários -->
-  <section class="section">
-
-    <div class="page-header">
-      <h2>🕒 Horários da Turma</h2>
-
-      <%= link_to "Adicionar Horario",
-        new_horario_path(turma_id: @turma.id),
-        class: "btn btn-primary btn-sm"
-      %>
+  <div class="page-section">
+    <div class="page-section__header">
+      <h2 class="page-section__title">Horários <span class="count-badge"><%= @turma.horarios.count %></span></h2>
+      <%= link_to "＋ Adicionar horário", new_horario_path(turma_id: @turma.id), class: "btn btn-primary btn-sm" %>
     </div>
 
     <% if @turma.horarios.any? %>
       <div class="grid">
         <% @turma.horarios.each do |horario| %>
-          <div class="card">
-            <%= render horario %>
-            <%= link_to "Ver horário", horario, class: "btn btn-outline btn-sm" %>
-          </div>
+          <%= render horario %>
         <% end %>
       </div>
     <% else %>
-      <p class="empty">Nenhum horário cadastrado.</p>
+      <div class="empty-state">
+        <div class="empty-state__icon">🕒</div>
+        <p class="empty-state__text">Nenhum horário cadastrado para esta turma.</p>
+      </div>
     <% end %>
-  </section>
-
+  </div>
 </div>

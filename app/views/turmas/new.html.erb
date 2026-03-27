@@ -1,3 +1,13 @@
-<% content_for :title, "New turma" %>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← Turmas", turmas_path, class: "back-link" %>
+      <h1>Nova Turma</h1>
+    </div>
+  </div>
 
-<%= render "form", turma: @turma %>
+  <div class="form-dark">
+    <h2 class="form-title">Dados da turma</h2>
+    <%= render "form", turma: @turma %>
+  </div>
+</div>

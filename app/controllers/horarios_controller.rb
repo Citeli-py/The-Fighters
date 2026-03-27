@@ -1,4 +1,5 @@
 class HorariosController < ApplicationController
+  before_action :require_admin_or_professor!
   before_action :set_horario, only: %i[ show edit update destroy ]
 
   # GET /horarios or /horarios.json

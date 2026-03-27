@@ -1,12 +1,13 @@
-<% content_for :title, "Editing modalidade" %>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← #{@modalidade.nome}", @modalidade, class: "back-link" %>
+      <h1>Editar Modalidade</h1>
+    </div>
+  </div>
 
-<h1>Editing modalidade</h1>
-
-<%= render "form", modalidade: @modalidade %>
-
-<br>
-
-<div>
-  <%= link_to "Show this modalidade", @modalidade %> |
-  <%= link_to "Back to modalidades", modalidades_path %>
+  <div class="form-dark">
+    <h2 class="form-title">Dados da modalidade</h2>
+    <%= render "form", modalidade: @modalidade %>
+  </div>
 </div>

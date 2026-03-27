@@ -1,4 +1,6 @@
 class Aluno < ApplicationRecord
+  belongs_to :user, optional: true
+
   has_many :TurmaAluno, dependent: :destroy
   has_many :turmas, through: :TurmaAluno
 

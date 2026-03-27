@@ -1,46 +1,40 @@
-<div id="<%= dom_id aula %>" class="card">
-  <div class="card-header">
-    Aula <%= aula.code %>
+<div id="<%= dom_id aula %>" class="item-card">
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+    <p class="item-card__title" style="border: none; padding: 0; margin: 0; flex: 1;">
+      <%= aula.horario.turma.nome %>
+    </p>
+    <span class="status-badge status-badge--<%= aula.status_nome.downcase %>">
+      <%= aula.status_nome %>
+    </span>
   </div>
 
-  <p>
-    <strong>Status:</strong>
-    <%= aula.status_nome %>
-    <br>
-    
-    <strong>Data:</strong>
-    <%= aula.data_hora_formatada %>
-    <br>
+  <div class="item-card__meta">
+    <div class="item-card__meta-row">
+      <span class="item-card__label">Data</span>
+      <%= aula.data_hora_formatada %>
+    </div>
+  </div>
 
-    <strong>Turma:</strong>
-    <%= aula.horario.turma.nome %>
-  </p>
+  <div class="item-card__actions">
+    <%= link_to "Ver", aula_path(aula), class: "btn btn-outline-yellow btn-sm" %>
 
-  <%if current_user.admin?%>
-    <div class="turma-actions">
-
-      <%= link_to "Ver", aula_path(aula), class: "btn"%>
-
-      <% if aula.is_cancelada and not aula.is_realizada %>
+    <% if current_user.admin_or_professor? %>
+      <% if aula.is_cancelada && !aula.is_realizada %>
         <%= button_to "Confirmar",
           confirm_aula_path(aula),
           method: :patch,
-          class: "btn btn-primary"
+          class: "btn btn-primary btn-sm"
         %>
       <% end %>
 
-
-      <% if not aula.is_cancelada %>
+      <% unless aula.is_cancelada %>
         <%= button_to "Cancelar",
           cancel_aula_path(aula),
           method: :patch,
-          class: "btn btn-danger",
-          data: { turbo_confirm: "Tem certeza que deseja cancelar essa aula?" }
+          class: "btn btn-danger btn-sm",
+          data: { turbo_confirm: "Cancelar esta aula?" }
         %>
       <% end %>
-    </div>
-  <%end%>
-
-
-
+    <% end %>
+  </div>
 </div>

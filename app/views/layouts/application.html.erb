@@ -33,26 +33,45 @@
         </div>
       </a>
 
-      <div>
+      <nav class="app-nav">
         <% if user_signed_in? %>
-          <span class="user-greeting">Olá, <%= current_user.email %>!</span>
-          <%= button_to 'Sair', destroy_user_session_path, method: :delete, class: "" %>
+          <% nome_exibido = current_user.professor? ? current_user.professor&.nome : current_user.email %>
+          <span class="user-greeting">Olá, <%= nome_exibido %></span>
+          <%= link_to "Meu perfil", edit_perfil_path, class: "btn-logout" %>
+          <%= button_to 'Sair', destroy_user_session_path, method: :delete, class: "btn-logout" %>
         <% else %>
-          <%= link_to 'Entrar', new_user_session_path, class: "" %>
+          <%= link_to 'Entrar', new_user_session_path, class: "btn-logout" %>
         <% end %>
-      </div>
+      </nav>
     </header>
 
-    <% if notice.present? %>
-      <div class="alert-success"> <%= notice %> </div>
-    <% end %>
-
-    <% if alert.present? %>
-      <div class="alert-failure"><%= alert %></div>
-    <% end %>
-
-    
+    <div id="toast-container" class="toast-container">
+      <% if notice.present? %>
+        <%= render "shared/toast", type: "success", message: notice %>
+      <% end %>
+      <% if alert.present? %>
+        <%= render "shared/toast", type: "error", message: alert %>
+      <% end %>
+    </div>
 
     <%= yield %>
+
+    <div id="confirm-modal"
+         data-controller="confirm"
+         data-action="keydown@window->confirm#keydown"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="confirm-message">
+      <div class="modal-backdrop" data-action="click->confirm#backdropClick">
+        <div class="modal-card">
+          <p class="modal-icon">⚠</p>
+          <p id="confirm-message" class="modal-message" data-confirm-target="message"></p>
+          <div class="modal-actions">
+            <button class="btn btn-outline" data-action="click->confirm#cancel">Cancelar</button>
+            <button class="btn btn-danger" data-confirm-target="confirmBtn" data-action="click->confirm#confirm">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,25 +1,30 @@
 <div class="page">
-  <h1>Adicionar aluno à turma</h1>
+  <div class="page-header">
+    <div>
+      <%= link_to "← #{@turma.nome}", @turma, class: "back-link" %>
+      <h1>Adicionar aluno à turma</h1>
+    </div>
+  </div>
 
-  <div class="card">
+  <div class="form-dark">
+    <h2 class="form-title">Selecione o aluno</h2>
+
     <%= form_with model: [@turma, @turma_aluno] do |form| %>
-
-      <div class="section">
-        <%= form.label :aluno_id, "Aluno" %><br>
-
+      <div class="form-group">
+        <%= form.label :aluno_id, "Aluno" %>
         <%= form.collection_select :aluno_id,
           @alunos_disponiveis,
           :id,
           :nome,
-          prompt: "Selecione um aluno"
+          { prompt: "Selecione um aluno" },
+          class: "form-input"
         %>
       </div>
 
-      <div class="turma-actions">
-        <%= form.submit "Adicionar", class: "btn btn-primary" %>
-        <%= link_to "Cancelar", @turma, class: "btn btn-outline" %>
+      <div class="form-actions">
+        <%= form.submit "Adicionar à turma", class: "btn btn-primary" %>
+        <%= link_to "Cancelar", @turma, class: "btn btn-ghost" %>
       </div>
-
     <% end %>
   </div>
 </div>

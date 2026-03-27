@@ -1,4 +1,5 @@
 class TurmasController < ApplicationController
+  before_action :require_admin_or_professor!, except: %i[index show]
   before_action :set_turma, only: %i[ show edit update destroy alunos ]
 
   # GET /turmas or /turmas.json

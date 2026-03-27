@@ -1,4 +1,14 @@
-<% content_for :title, "New horario" %>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← Horários", horarios_path, class: "back-link" %>
+      <h1>Novo Horário</h1>
+    </div>
+  </div>
 
-<%= render "form", horario: @horario %>
+  <div class="form-dark">
+    <h2 class="form-title">Dados do horário</h2>
+    <%= render "form", horario: @horario %>
+  </div>
+</div>
 

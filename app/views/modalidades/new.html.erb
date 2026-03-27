@@ -1,11 +1,13 @@
-<% content_for :title, "New modalidade" %>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← Modalidades", modalidades_path, class: "back-link" %>
+      <h1>Nova Modalidade</h1>
+    </div>
+  </div>
 
-<h1>New modalidade</h1>
-
-<%= render "form", modalidade: @modalidade %>
-
-<br>
-
-<div>
-  <%= link_to "Back to modalidades", modalidades_path %>
+  <div class="form-dark">
+    <h2 class="form-title">Dados da modalidade</h2>
+    <%= render "form", modalidade: @modalidade %>
+  </div>
 </div>

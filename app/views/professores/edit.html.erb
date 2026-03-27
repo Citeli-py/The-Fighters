@@ -1,0 +1,8 @@
+<div class="page">
+  <div class="page-header">
+    <%= link_to "← #{@professor.nome}", professor_path(@professor), class: "back-link" %>
+    <h1>Editar professor</h1>
+  </div>
+
+  <%= render "form", professor: @professor %>
+</div>

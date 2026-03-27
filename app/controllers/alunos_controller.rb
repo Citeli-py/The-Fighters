@@ -1,6 +1,6 @@
 class AlunosController < ApplicationController
   before_action :set_aluno, only: %i[ show edit update destroy ]
-  before_action :require_admin!, only: %i[index new edit create update destroy ]
+  before_action :require_admin_or_professor!, only: %i[index new edit create update destroy]
 
   # GET /alunos or /alunos.json
   def index

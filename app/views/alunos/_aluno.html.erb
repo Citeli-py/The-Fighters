@@ -1,39 +1,50 @@
+<% initials = aluno.nome.split.first(2).map { |w| w[0] }.join.upcase %>
 
-<div id="<%= dom_id aluno %>" class="card">
-    <div class="card-header">
-      <%= aluno.nome %>
-    </div>
+<div id="<%= dom_id aluno %>" class="aluno-card" data-nome="<%= aluno.nome.downcase %>">
 
-    <p>
-      <strong>CPF:</strong>
-      <%= aluno.cpf %>
-    </p>
-
-    <p>
-      <strong>Nascimento:</strong>
-      <%= aluno.data_nascimento_formatada %>
-    </p>
-
-    <div class="turma-actions">
-      <%= link_to "Ver", aluno, class: "btn btn-outline btn-sm" %>
-      <%= link_to "Editar", edit_aluno_path(aluno), class: "btn btn-outline btn-sm" %>
-
-      <% if local_assigns[:turma].present? %>
-        <%= button_to "Remover da turma",
-          turma_turma_aluno_path(@turma, aluno),
-          method: :delete,
-          class: "btn btn-danger",
-          data: { turbo_confirm: "Tem certeza que deseja remover #{aluno.nome} de #{@turma.nome}?" } %>
-
-      <% else %>
-        <%= button_to "Remover",
-          aluno,
-          method: :delete,
-          class: "btn btn-danger",
-          data: { turbo_confirm: "Tem certeza que deseja remover este aluno?" }
-        %> 
+  <div class="aluno-card__header">
+    <div class="aluno-avatar"><%= initials %></div>
+    <div>
+      <p class="aluno-nome"><%= aluno.nome %></p>
+      <% if aluno.turmas.any? %>
+        <span class="aluno-turma-badge"><%= aluno.turmas.first.nome %></span>
       <% end %>
-
     </div>
+  </div>
+
+  <div class="aluno-info">
+    <div class="aluno-info__item">
+      <span class="aluno-info__label">CPF</span>
+      <%= format_cpf(aluno.cpf) %>
+    </div>
+    <div class="aluno-info__item">
+      <span class="aluno-info__label">Nascimento</span>
+      <%= aluno.data_nascimento_formatada %>
+      <% if aluno.data_nascimento.present? %>
+        <span class="aluno-age">
+          (<%= ((Date.today - aluno.data_nascimento) / 365.25).floor %> anos)
+        </span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="aluno-card__actions">
+    <%= link_to "Ver", aluno, class: "btn btn-outline-yellow btn-sm" %>
+    <%= link_to "Editar", edit_aluno_path(aluno), class: "btn btn-ghost btn-sm" %>
+
+    <% if local_assigns[:turma].present? %>
+      <%= button_to "Remover da turma",
+        turma_turma_aluno_path(@turma, aluno),
+        method: :delete,
+        class: "btn btn-danger btn-sm",
+        data: { turbo_confirm: "Remover #{aluno.nome} de #{@turma.nome}?" } %>
+    <% else %>
+      <%= button_to "Excluir",
+        aluno,
+        method: :delete,
+        class: "btn btn-danger btn-sm",
+        data: { turbo_confirm: "Excluir #{aluno.nome}?" } %>
+    <% end %>
+  </div>
 
 </div>

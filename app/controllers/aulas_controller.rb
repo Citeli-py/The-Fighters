@@ -1,6 +1,6 @@
 class AulasController < ApplicationController
-  before_action :set_aula, only: %i[ show cancel_aula confirm_aula]
-  before_action :require_admin!, only: %i[ show cancel_aula confirm_aula]
+  before_action :set_aula, only: %i[ show cancel_aula confirm_aula ]
+  before_action :require_admin_or_professor!, only: %i[cancel_aula confirm_aula]
 
 
   # GET /aulas/1 or /aulas/1.json
@@ -12,13 +12,28 @@ class AulasController < ApplicationController
     # alunos da turma que ainda NÃO marcaram presença
     @alunos_disponiveis = turma.alunos.where.not(id: @presencas.select(:aluno_id))
 
-    qr_url = presenca_checkin_url(code: @aula.code)
-    @qr = RQRCode::QRCode.new(qr_url)
+    if current_user.admin?
+      qr_url = presenca_checkin_url(code: @aula.code)
+      @qr = RQRCode::QRCode.new(qr_url)
+    end
   end
 
 
   def index
-    @aulas = Aula.order(id: :desc)
+    today = Date.current
+
+    @turmas      = Turma.order(:nome)
+    @modalidades = Modalidade.order(:nome)
+
+    scope = Aula.includes(horario: { turma: :modalidade })
+                .joins(horario: { turma: :modalidade })
+
+    scope = scope.where(horarios: { turma_id: params[:turma_id] }) if params[:turma_id].present?
+    scope = scope.where(turmas: { modalidade_id: params[:modalidade_id] }) if params[:modalidade_id].present?
+
+    @aulas_semana   = scope.where(data: today.beginning_of_week..today.end_of_week).order(:data)
+    @aulas_proximas = scope.where("aulas.data > ?", today.end_of_week).order(:data)
+    @aulas_passadas = scope.where("aulas.data < ?", today.beginning_of_week).order(data: :desc)
   end
 
   # PATCH /aulas/:id/cancel

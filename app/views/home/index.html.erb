@@ -1,22 +1,57 @@
-<div class="app-container" style="padding: 2rem;">
-  <main class="dashboard">
-    <div class="card destaque">
-      <h2>☯ Aulas</h2>
-      <p>Registrar presença via QR Code</p>
-      <%= link_to "Presença", "#", class: "btn btn-primary" %>
-      <%= link_to "Acessar", "aulas/", class: "btn btn-primary" %>
+<div class="app-container">
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Dashboard</h1>
+    <p class="dashboard-subtitle">Gerencie sua academia de Taekwondo</p>
+  </div>
+
+  <main class="dashboard-grid">
+    <div class="nav-card nav-card--highlight">
+      <div class="nav-card__icon">☯</div>
+      <div class="nav-card__body">
+        <h2 class="nav-card__title">Aulas</h2>
+        <p class="nav-card__desc">Registre presenças via QR Code e acompanhe as aulas do dia</p>
+      </div>
+      <div class="nav-card__actions">
+        <%= link_to "Presença", aulas_path, class: "btn btn-primary btn-sm" %>
+        <%= link_to "Acessar", aulas_path, class: "btn btn-outline-yellow btn-sm" %>
+      </div>
     </div>
 
-    <div class="card">
-      <h2>👥 Pessoas</h2>
-      <p>Gerencie alunos e professores</p>
-      <%= link_to "Acessar", "alunos/", class: "btn" %>
-    </div>
+    <% if current_user.admin_or_professor? %>
+      <div class="nav-card">
+        <div class="nav-card__icon">🥋</div>
+        <div class="nav-card__body">
+          <h2 class="nav-card__title">Professores</h2>
+          <p class="nav-card__desc">Cadastro e acesso dos professores</p>
+        </div>
+        <div class="nav-card__actions">
+          <%= link_to "Acessar", professores_path, class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+    <% end %>
 
-    <div class="card">
-      <h2>🥋 Turmas</h2>
-      <p>Turmas, horários e aulas</p>
-      <%= link_to "Acessar", "turmas/", class: "btn" %>
-    </div>
+    <% if current_user.admin_or_professor? %>
+      <div class="nav-card">
+        <div class="nav-card__icon">👥</div>
+        <div class="nav-card__body">
+          <h2 class="nav-card__title">Alunos</h2>
+          <p class="nav-card__desc">Cadastro de alunos</p>
+        </div>
+        <div class="nav-card__actions">
+          <%= link_to "Acessar", alunos_path, class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+
+      <div class="nav-card">
+        <div class="nav-card__icon">📋</div>
+        <div class="nav-card__body">
+          <h2 class="nav-card__title">Turmas</h2>
+          <p class="nav-card__desc">Turmas, horários e programação de aulas</p>
+        </div>
+        <div class="nav-card__actions">
+          <%= link_to "Acessar", turmas_path, class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+    <% end %>
   </main>
 </div>

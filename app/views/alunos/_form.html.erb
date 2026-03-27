@@ -1,8 +1,7 @@
 <%= form_with(model: aluno) do |form| %>
   <% if aluno.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(aluno.errors.count, "error") %> prohibited this aluno from being saved:</h2>
-
+    <div class="form-errors">
+      <h3><%= pluralize(aluno.errors.count, "erro") %> encontrado(s):</h3>
       <ul>
         <% aluno.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,22 +10,24 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :nome, style: "display: block" %>
-    <%= form.text_field :nome %>
+  <div class="form-group">
+    <%= form.label :nome, "Nome completo" %>
+    <%= form.text_field :nome, class: "form-input", placeholder: "Ex: João da Silva" %>
   </div>
 
-  <div>
-    <%= form.label :data_nascimento, style: "display: block" %>
-    <%= form.date_field :data_nascimento %>
+  <div class="form-grid">
+    <div class="form-group">
+      <%= form.label :data_nascimento, "Data de nascimento" %>
+      <%= form.date_field :data_nascimento, class: "form-input" %>
+    </div>
+    <div class="form-group">
+      <%= form.label :cpf, "CPF" %>
+      <%= form.text_field :cpf, class: "form-input", placeholder: "000.000.000-00" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :cpf, style: "display: block" %>
-    <%= form.text_field :cpf %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.submit aluno.persisted? ? "Salvar alterações" : "Cadastrar aluno", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", aluno.persisted? ? aluno : alunos_path, class: "btn btn-ghost" %>
   </div>
 <% end %>
