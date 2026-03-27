@@ -1,0 +1,10 @@
+<%= turbo_stream.remove @presenca %>
+
+<%= turbo_stream.append "alunos-disponiveis-grid" do %>
+  <%= render partial: "presencas/aluno_disponivel",
+             locals: { aluno: @presenca.aluno, aula: @aula } %>
+<% end %>
+
+<%= turbo_stream.replace "presencas-count" do %>
+  <span id="presencas-count" class="count-badge"><%= @aula.presencas.count %></span>
+<% end %>

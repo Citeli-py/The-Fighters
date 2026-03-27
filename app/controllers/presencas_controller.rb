@@ -5,13 +5,14 @@ class PresencasController < ApplicationController
     @presenca = @aula.presencas.build(aluno_id: params[:aluno_id])
 
     if @presenca.save
-      redirect_to @aula,
-        notice: "Presença registrada.",
-        status: :see_other
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @aula, notice: "Presença registrada.", status: :see_other }
+      end
     else
-      redirect_to @aula,
-        alert: @presenca.errors.full_messages.to_sentence,
-        status: :unprocessable_entity
+      respond_to do |format|
+        format.html { redirect_to @aula, alert: @presenca.errors.full_messages.to_sentence, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -19,20 +20,21 @@ class PresencasController < ApplicationController
     @presenca = @aula.presencas.find(params[:id])
 
     if @presenca.destroy
-      redirect_to @aula,
-        notice: "Presença removida.",
-        status: :see_other
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @aula, notice: "Presença removida.", status: :see_other }
+      end
     else
-      redirect_to @aula,
-        alert: "Erro ao remover presença.",
-        status: :unprocessable_entity
+      respond_to do |format|
+        format.html { redirect_to @aula, alert: "Erro ao remover presença.", status: :unprocessable_entity }
+      end
     end
   end
 
   # GET /presenca/:code/checkin
   def checkin
     aula = Aula.find_by!(code: params[:code])
-    aluno = Aluno.find(2) # depois vem do login
+    aluno = Aluno.find_by!(user: current_user)
 
     presenca = Presenca.find_or_initialize_by(
       aluno: aluno,
