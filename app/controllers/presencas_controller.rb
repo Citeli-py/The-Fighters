@@ -34,25 +34,23 @@ class PresencasController < ApplicationController
 
   # GET /presenca/:code/checkin
   def checkin
-    aula = Aula.find_by!(code: params[:code])
-    aluno = Aluno.find_by!(user: current_user)
+    aula = Aula.find_by(code: params[:code])
+    return redirect_to root_path, alert: "QR Code inválido." if aula.nil?
 
-    presenca = Presenca.find_or_initialize_by(
-      aluno: aluno,
-      aula: aula
-    )
+    aluno = Aluno.find_by(user: current_user)
+    return redirect_to root_path, alert: "Seu usuário não está vinculado a nenhum aluno. Fale com o professor." if aluno.nil?
 
     if aula.data != Date.today
-      render plain: "Check-in fora da data da aula", status: :unprocessable_entity
-      return
+      return redirect_to root_path, alert: "Este QR Code é de uma aula de outro dia."
     end
 
-    if presenca.presente?
-      render plain: "Presença já registrada"
+    presenca = Presenca.find_or_initialize_by(aluno: aluno, aula: aula)
+
+    if presenca.persisted?
+      redirect_to root_path, notice: "Presença já registrada em #{aula.horario.turma.nome}."
     else
-      presenca.presente = true
       presenca.save!
-      render plain: "Check-in confirmado em #{aula.horario.turma.nome} para #{aula.data}"
+      redirect_to root_path, notice: "Check-in confirmado em #{aula.horario.turma.nome}!"
     end
   end
 
