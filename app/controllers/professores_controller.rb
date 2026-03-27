@@ -1,6 +1,6 @@
 class ProfessoresController < ApplicationController
   before_action :require_admin_or_professor!
-  before_action :require_admin!, only: %i[new create destroy]
+  before_action :require_admin!, only: %i[new create edit update destroy reset_password]
   before_action :set_professor, only: %i[ show edit update destroy reset_password ]
 
   def index
