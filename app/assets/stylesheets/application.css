@@ -494,6 +494,81 @@ h1, h2, h3 {
 }
 
 /* ========================
+   TEMP PASSWORD BOX
+======================== */
+
+.temp-password-box {
+  background: #1a2a0a;
+  border: 2px solid #F5C400;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.temp-password-box__label {
+  color: #F5C400;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.temp-password-box__credentials {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.temp-password-box__key {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+.temp-password-box__value {
+  font-size: 1.1rem;
+  color: #fff;
+  font-family: monospace;
+  letter-spacing: 0.05em;
+}
+
+/* ========================
+   DETAIL LIST
+======================== */
+
+.detail-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1.5rem;
+  padding: 1rem 1.25rem;
+}
+
+.detail-list dt {
+  font-size: 0.8rem;
+  color: rgba(0,0,0,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  align-self: center;
+}
+
+.detail-list dd {
+  font-weight: 500;
+  color: #0F0F0F;
+  margin: 0;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 0.25rem;
+}
+
+/* ========================
    TURMA / DOMAIN SCREENS
 ======================== */
 

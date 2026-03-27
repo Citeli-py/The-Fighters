@@ -1,0 +1,18 @@
+<div id="<%= dom_id professor %>" class="item-card">
+  <p class="item-card__title"><%= professor.nome %></p>
+
+  <div class="item-card__meta">
+    <div class="item-card__meta-row">
+      <span class="item-card__label">Login</span>
+      <code><%= professor.user.username %></code>
+    </div>
+    <div class="item-card__meta-row">
+      <span class="item-card__label">CPF</span>
+      <%= professor.cpf %>
+    </div>
+  </div>
+
+  <div class="item-card__actions">
+    <%= link_to "Ver", professor_path(professor), class: "btn btn-outline-yellow btn-sm" %>
+  </div>
+</div>

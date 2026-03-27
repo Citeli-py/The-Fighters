@@ -1,0 +1,31 @@
+<%= form_with model: professor, class: "form-card" do |f| %>
+  <%= render "shared/form_errors", resource: professor %>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <%= f.label :nome, "Nome completo" %>
+      <%= f.text_field :nome, class: "form-input", placeholder: "Nome do professor" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :cpf, "CPF" %>
+      <%= f.text_field :cpf, class: "form-input", placeholder: "000.000.000-00",
+            disabled: professor.persisted? %>
+      <% if professor.persisted? %>
+        <small class="form-hint">CPF não pode ser alterado</small>
+      <% else %>
+        <small class="form-hint">O CPF (apenas dígitos) será o login do professor</small>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :data_nascimento, "Data de nascimento" %>
+      <%= f.date_field :data_nascimento, class: "form-input" %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit professor.persisted? ? "Salvar" : "Criar professor", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", professores_path, class: "btn btn-outline" %>
+  </div>
+<% end %>

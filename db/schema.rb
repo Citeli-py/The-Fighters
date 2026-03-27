@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_26_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_27_000002) do
   create_table "alunos", force: :cascade do |t|
     t.string "cpf"
     t.datetime "created_at", null: false
@@ -58,6 +58,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_000001) do
     t.index ["aula_id"], name: "index_presencas_on_aula_id"
   end
 
+  create_table "professores", force: :cascade do |t|
+    t.string "cpf", null: false
+    t.datetime "created_at", null: false
+    t.date "data_nascimento"
+    t.string "nome", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["cpf"], name: "index_professores_on_cpf", unique: true
+    t.index ["user_id"], name: "index_professores_on_user_id"
+  end
+
   create_table "turma_alunos", force: :cascade do |t|
     t.integer "aluno_id", null: false
     t.datetime "created_at", null: false
@@ -85,8 +96,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_000001) do
     t.string "reset_password_token"
     t.integer "role"
     t.datetime "updated_at", null: false
+    t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "alunos", "users"
@@ -94,6 +107,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_000001) do
   add_foreign_key "horarios", "turmas"
   add_foreign_key "presencas", "alunos"
   add_foreign_key "presencas", "aulas"
+  add_foreign_key "professores", "users"
   add_foreign_key "turma_alunos", "alunos"
   add_foreign_key "turma_alunos", "turmas"
   add_foreign_key "turmas", "modalidades"

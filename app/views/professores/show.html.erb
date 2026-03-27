@@ -1,0 +1,53 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <%= link_to "← Professores", professores_path, class: "back-link" %>
+      <h1><%= @professor.nome %></h1>
+    </div>
+    <div style="display:flex; gap: 0.5rem;">
+      <%= link_to "Editar", edit_professor_path(@professor), class: "btn btn-outline" %>
+      <%= button_to "Remover", professor_path(@professor), method: :delete, class: "btn btn-danger btn-sm",
+            data: { turbo_confirm: "Remover #{@professor.nome} e seu acesso ao sistema?" } %>
+    </div>
+  </div>
+
+  <%# Exibe senha temporária uma única vez após criação ou reset %>
+  <% if flash[:temp_password].present? %>
+    <div class="temp-password-box">
+      <p class="temp-password-box__label">Senha temporária (anote agora — não será exibida novamente)</p>
+      <div class="temp-password-box__credentials">
+        <div>
+          <span class="temp-password-box__key">Login</span>
+          <strong class="temp-password-box__value"><%= @professor.user.username %></strong>
+        </div>
+        <div>
+          <span class="temp-password-box__key">Senha</span>
+          <strong class="temp-password-box__value"><%= flash[:temp_password] %></strong>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-header">Dados</div>
+    <dl class="detail-list">
+      <dt>Nome</dt>
+      <dd><%= @professor.nome %></dd>
+
+      <dt>CPF</dt>
+      <dd><%= @professor.cpf %></dd>
+
+      <dt>Nascimento</dt>
+      <dd><%= @professor.data_nascimento_formatada || "—" %></dd>
+
+      <dt>Login</dt>
+      <dd><code><%= @professor.user.username %></code></dd>
+    </dl>
+  </div>
+
+  <div class="section" style="margin-top: 1.5rem;">
+    <%= button_to "Resetar senha", reset_password_professor_path(@professor), method: :patch,
+          class: "btn btn-outline",
+          data: { turbo_confirm: "Gerar nova senha temporária para #{@professor.nome}?" } %>
+  </div>
+</div>
