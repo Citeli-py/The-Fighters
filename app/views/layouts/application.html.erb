@@ -35,8 +35,9 @@
 
       <nav class="app-nav">
         <% if user_signed_in? %>
-          <span class="user-greeting">Olá, <%= current_user.email %></span>
-          <%= link_to "Meu perfil", perfil_path, class: "btn-logout" %>
+          <% nome_exibido = current_user.professor? ? current_user.professor&.nome : current_user.email %>
+          <span class="user-greeting">Olá, <%= nome_exibido %></span>
+          <%= link_to "Meu perfil", edit_perfil_path, class: "btn-logout" %>
           <%= button_to 'Sair', destroy_user_session_path, method: :delete, class: "btn-logout" %>
         <% else %>
           <%= link_to 'Entrar', new_user_session_path, class: "btn-logout" %>

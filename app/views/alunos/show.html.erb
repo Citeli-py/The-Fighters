@@ -56,7 +56,7 @@
     <div class="aluno-details-grid">
       <div class="aluno-detail">
         <span class="aluno-detail__label">CPF</span>
-        <span class="aluno-detail__value"><%= @aluno.cpf %></span>
+        <span class="aluno-detail__value"><%= format_cpf(@aluno.cpf) %></span>
       </div>
       <div class="aluno-detail">
         <span class="aluno-detail__label">Data de Nascimento</span>

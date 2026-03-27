@@ -10,7 +10,7 @@
     <div class="form-group">
       <%= f.label :cpf, "CPF" %>
       <%= f.text_field :cpf, class: "form-input", placeholder: "000.000.000-00",
-            disabled: professor.persisted? %>
+            readonly: professor.persisted? %>
       <% if professor.persisted? %>
         <small class="form-hint">CPF não pode ser alterado</small>
       <% end %>

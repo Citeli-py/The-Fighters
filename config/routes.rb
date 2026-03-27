@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     member { patch :reset_password }
   end
 
-  resource :perfil, only: %i[ edit update ]
+  resource :perfil, only: %i[ edit update ], controller: "perfil"
 
   # Aulas Routes
   resources :aulas do
