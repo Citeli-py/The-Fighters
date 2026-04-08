@@ -12,7 +12,7 @@ class AulasController < ApplicationController
     # alunos da turma que ainda NÃO marcaram presença
     @alunos_disponiveis = turma.alunos.where.not(id: @presencas.select(:aluno_id))
 
-    if current_user.admin?
+    if current_user.admin_or_professor?
       qr_url = presenca_checkin_url(code: @aula.code)
       @qr = RQRCode::QRCode.new(qr_url)
     end
