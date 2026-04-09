@@ -27,23 +27,28 @@ test:
 
 
 # Production uses PostgreSQL (Supabase) via DATABASE_URL env variable.
+# Uses Transaction Mode pooler (port 6543) — requires prepared_statements: false.
 production:
   primary:
     adapter: postgresql
     url: <%= ENV["DATABASE_URL"] %>
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 3 } %>
+    prepared_statements: false
   cache:
     adapter: postgresql
     url: <%= ENV["DATABASE_URL"] %>
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 3 } %>
+    prepared_statements: false
     migrations_paths: db/cache_migrate
   queue:
     adapter: postgresql
     url: <%= ENV["DATABASE_URL"] %>
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 3 } %>
+    prepared_statements: false
     migrations_paths: db/queue_migrate
   cable:
     adapter: postgresql
     url: <%= ENV["DATABASE_URL"] %>
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 3 } %>
+    prepared_statements: false
     migrations_paths: db/cable_migrate
