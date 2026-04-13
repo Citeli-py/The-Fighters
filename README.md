@@ -9,13 +9,13 @@ Sistema web para gerenciar alunos, turmas, horários, aulas e presenças de uma 
 | Camada | Tecnologia |
 |--------|-----------|
 | Backend | Ruby 3.4.8 · Rails 8.1.1 |
-| Banco de dados | SQLite3 (dev e produção) |
+| Banco de dados | SQLite3 (desenvolvimento) · PostgreSQL/Supabase (produção) |
 | Frontend | Hotwire (Turbo + Stimulus) · CSS puro · Importmap |
 | Auth | Devise |
 | Jobs | Solid Queue + Solid Queue Cron |
 | Assets | Propshaft |
 | QR Code | rqrcode |
-| Deploy | Kamal + Docker |
+| Deploy | Render (principal) · Kamal + Docker (alternativo) |
 
 ---
 
@@ -34,14 +34,39 @@ bin/rails db:create db:migrate
 bin/rails server
 ```
 
-### Variáveis de ambiente (opcionais)
+Para criar um usuário admin local:
+
+```bash
+bin/rails runner "User.create!(email: 'admin@example.com', password: 'password', role: 1)"
+```
+
+### Variáveis de ambiente
+
+Crie um arquivo `.env` na raiz para desenvolvimento local (carregado pelo `dotenv-rails`):
 
 | Variável | Padrão | Descrição |
 |----------|--------|-----------|
 | `AULAS_WINDOW_DAYS` | `30` | Janela de dias futuros para criação automática de aulas |
 | `SOLID_QUEUE_IN_PUMA` | — | Roda jobs dentro do Puma em desenvolvimento |
 
-Crie um arquivo `.env` na raiz para sobrescrever os valores.
+> **Atenção:** não defina `DATABASE_URL` no `.env`. Em desenvolvimento o Rails usa SQLite conforme `config/database.yml`. O `DATABASE_URL` só deve existir no ambiente de produção (Render/Kamal).
+
+### Variáveis obrigatórias em produção
+
+| Variável | Descrição |
+|----------|-----------|
+| `RAILS_MASTER_KEY` | Conteúdo de `config/master.key` — nunca versionar |
+| `DATABASE_URL` | URL de conexão PostgreSQL (Transaction Mode, porta `6543`) |
+| `RAILS_ENV` | Deve ser `production` |
+| `SOLID_QUEUE_IN_PUMA` | `true` — roda o Solid Queue dentro do Puma |
+
+Exemplo de `DATABASE_URL` para Supabase (Session Pooler → porta 5432, Transaction Pooler → porta 6543):
+
+```
+postgresql://postgres.PROJECT_REF:SENHA@aws-1-REGION.pooler.supabase.com:6543/postgres?sslmode=require
+```
+
+> Use **Transaction Mode (porta 6543)**. O Session Mode (porta 5432) tem limite de conexões simultâneas incompatível com múltiplos workers.
 
 ---
 
@@ -141,9 +166,21 @@ User::ROLES = { user: 0, admin: 1, professor: 2 }
 
 | Role | Acesso |
 |------|--------|
-| `admin` | Acesso total — CRUD de tudo, incluindo criar/remover professores |
-| `professor` | CRUD de alunos, turmas, aulas e horários. Pode ver outros professores, mas não editá-los |
+| `admin` | Acesso total — CRUD de tudo, incluindo criar/remover professores e modalidades |
+| `professor` | CRUD de alunos, turmas, aulas, horários e criação de modalidades. Não pode editar/excluir modalidades nem gerenciar professores |
 | `user` | Apenas check-in via QR Code (fase futura: painel do aluno) |
+
+**Resumo de permissões por recurso:**
+
+| Recurso | admin | professor | user |
+|---------|-------|-----------|------|
+| Alunos | CRUD | CRUD | — |
+| Turmas | CRUD | CRUD | — |
+| Aulas / Horários | CRUD | CRUD | — |
+| Professores | CRUD | somente leitura | — |
+| Modalidades | CRUD | criar/listar | — |
+| QR Code (aula) | ver | ver | — |
+| Check-in | — | — | scan |
 
 ### Helpers de controle de acesso (`ApplicationController`)
 
@@ -295,9 +332,32 @@ bin/rubocop                 # Linting
 
 ## Deploy
 
-O projeto usa **Kamal** com Docker. Configure `config/deploy.yml` com as credenciais do servidor antes do primeiro deploy.
+### Render (deploy principal)
+
+O deploy é feito via **Render Web Service** usando o `Dockerfile` existente.
+
+**Variáveis obrigatórias no Render** (Environment → Environment Variables):
+
+| Variável | Valor |
+|----------|-------|
+| `RAILS_ENV` | `production` |
+| `RAILS_MASTER_KEY` | conteúdo de `config/master.key` |
+| `DATABASE_URL` | URL Supabase Transaction Mode (porta 6543) |
+| `SOLID_QUEUE_IN_PUMA` | `true` |
+
+O entrypoint (`bin/docker-entrypoint`) executa `db:prepare` automaticamente a cada deploy.
+
+> **Banco de dados:** na primeira vez que o serviço sobe em um banco vazio, além das migrations do app é necessário carregar os schemas dos adapters auxiliares:
+> ```bash
+> # via Render Shell ou rails runner remoto
+> DISABLE_DATABASE_ENVIRONMENT_CHECK=1 rails db:schema:load:queue db:schema:load:cache db:schema:load:cable
+> ```
+
+### Kamal (alternativo)
 
 ```bash
 kamal setup    # Primeiro deploy
 kamal deploy   # Deploys subsequentes
 ```
+
+Configure `config/deploy.yml` e `.kamal/secrets` antes do primeiro deploy.
