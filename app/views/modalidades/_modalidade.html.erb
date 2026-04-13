@@ -3,11 +3,13 @@
 
   <div class="item-card__actions">
     <%= link_to "Ver", modalidade, class: "btn btn-outline-yellow btn-sm" %>
-    <%= link_to "Editar", edit_modalidade_path(modalidade), class: "btn btn-ghost btn-sm" %>
-    <%= button_to "Excluir",
-      modalidade,
-      method: :delete,
-      class: "btn btn-danger btn-sm",
-      data: { turbo_confirm: "Excluir #{modalidade.nome}?" } %>
+    <% if current_user.admin? %>
+      <%= link_to "Editar", edit_modalidade_path(modalidade), class: "btn btn-ghost btn-sm" %>
+      <%= button_to "Excluir",
+        modalidade,
+        method: :delete,
+        class: "btn btn-danger btn-sm",
+        data: { turbo_confirm: "Excluir #{modalidade.nome}?" } %>
+    <% end %>
   </div>
 </div>
